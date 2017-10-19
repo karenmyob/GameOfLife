@@ -1,12 +1,13 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace GameOfLife.UnitTests
 {
-    [TestClass]
-    public class UnitTest1
+    [TestFixture]
+    public class GameOfLifeShould
     {
-        [TestMethod]
+        [Test]
         public void TestMethod1()
         {
         }
