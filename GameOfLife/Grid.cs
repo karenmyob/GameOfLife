@@ -11,12 +11,14 @@ namespace GameOfLife
 
         public List<Cell> Cells { get; set; }
 
-        public Grid()
+        public Grid(List<Cell> seed)
         {
             Cells = new List<Cell>();
+            Initialise();
+            SetSeed(seed);
         }
 
-        public void Initialise()
+        private void Initialise()
         {
             for (var x = 0; x < Height; x++)
             {
@@ -27,6 +29,7 @@ namespace GameOfLife
                         PointX = x,
                         PointY = y
                     };
+ 
                     Cells.Add(cell);
                 }
             }                
@@ -66,6 +69,14 @@ namespace GameOfLife
         public Cell GetCell(int pointX, int pointY)
         {
             return Cells.First(cell => cell.PointX == pointX && cell.PointY == pointY);
+        }
+
+        private void SetSeed(List<Cell> seeds)
+        {
+            foreach (var seed in seeds)
+            {
+                SetCellState(seed.PointX, seed.PointY, true);
+            }
         }
     }
 }

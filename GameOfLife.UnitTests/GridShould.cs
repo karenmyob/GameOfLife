@@ -8,12 +8,13 @@ namespace GameOfLife.UnitTests
     public class GridShould
     {
         private Grid _grid;
+        private UnitTestExtensions _unitTestExtensions;
 
         [SetUp]
         public void SetUp()
         {
-            _grid = new Grid();
-            _grid.Initialise();
+            _grid = new Grid(new List<Cell>());
+            _unitTestExtensions = new UnitTestExtensions();
         }
 
         [Test]
@@ -48,7 +49,7 @@ namespace GameOfLife.UnitTests
             const int pointX = 0;
             const int pointY = 0;
 
-            var neighbourCells = new List<Cell>
+            var expectedNeighbourCells = new List<Cell>
             {
                 new Cell() {PointX = 0, PointY = 1},
                 new Cell() {PointX = 1, PointY = 0},
@@ -56,7 +57,7 @@ namespace GameOfLife.UnitTests
             };
 
             var actual = _grid.GetNeighbours(pointX, pointY);
-            Assert.IsTrue(CheckListContainsSameCells(neighbourCells, actual));
+            Assert.IsTrue(CheckListContainsSameCells(expectedNeighbourCells, actual));
         }
 
         [Test]
@@ -93,7 +94,7 @@ namespace GameOfLife.UnitTests
         public void CountLiveNeighbourForCell()
         {
             _grid.SetCellState(0, 1, true);
-            var expected = 1;
+            const int expected = 1;
             var actual = _grid.CountLiveNeighbour(0, 0);
             Assert.AreEqual(expected, actual);
         }
@@ -103,6 +104,5 @@ namespace GameOfLife.UnitTests
             return expected.Count == actual.Count &&
                 expected.All(cell => actual.Count(c => c.PointX == cell.PointX && c.PointY == cell.PointY) != 0);
         }
-
     }
 }
