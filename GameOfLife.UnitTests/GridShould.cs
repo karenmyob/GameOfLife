@@ -52,7 +52,7 @@ namespace GameOfLife.UnitTests
             {
                 new Cell() {PointX = 0, PointY = 1},
                 new Cell() {PointX = 1, PointY = 0},
-                new Cell() {PointX = 1, PointY = 1}
+                new Cell() {PointX = 1, PointY = 1},
             };
 
             var actual = _grid.GetNeighbours(pointX, pointY);
@@ -80,9 +80,28 @@ namespace GameOfLife.UnitTests
             Assert.IsTrue(CheckListContainsSameCells(neighbourCells, actual));
         }
 
-        private bool CheckListContainsSameCells(List<Cell> listA, List<Cell> listB)
+        [Test]
+        public void GetSpecifiedCell()
         {
-            return listA.All(cell => listB.Count(c => c.PointX == cell.PointX && c.PointY == cell.PointY) != 0);
+            var actual = _grid.GetCell(1, 1);
+            var expected = new Cell {PointX = 1, PointY = 1};
+            Assert.AreEqual(actual.PointX, expected.PointX);
+            Assert.AreEqual(actual.PointY, expected.PointY);
+        }
+
+        [Test]
+        public void CountLiveNeighbourForCell()
+        {
+            _grid.SetCellState(0, 1, true);
+            var expected = 1;
+            var actual = _grid.CountLiveNeighbour(0, 0);
+            Assert.AreEqual(expected, actual);
+        }
+
+        private bool CheckListContainsSameCells(List<Cell> expected, List<Cell> actual)
+        {
+            return expected.Count == actual.Count &&
+                expected.All(cell => actual.Count(c => c.PointX == cell.PointX && c.PointY == cell.PointY) != 0);
         }
 
     }
